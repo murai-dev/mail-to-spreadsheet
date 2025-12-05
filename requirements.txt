@@ -1,0 +1,19 @@
+# メール処理
+
+# Google Sheets API
+gspread==6.0.0
+google-auth==2.25.2
+google-auth-oauthlib==1.2.0
+google-auth-httplib2==0.2.0
+
+# 設定管理
+PyYAML==6.0.1
+python-dotenv==1.0.0
+
+# ログ出力
+# （標準ライブラリの logging を使用）
+
+# テスト（開発時のみ）
+pytest==7.4.3
+pytest-cov==4.1.0
+pytest-mock==3.12.0

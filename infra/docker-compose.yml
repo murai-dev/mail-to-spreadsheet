@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  mail-to-spreadsheet:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile
+    container_name: mail-to-spreadsheet
+    environment:
+      # 環境変数を指定（.envファイルから読み込み）
+      - MAIL_USER=${MAIL_USER}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - GOOGLE_SERVICE_ACCOUNT_FILE=${GOOGLE_SERVICE_ACCOUNT_FILE}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - LOG_FILE=${LOG_FILE:-/var/log/mail-to-spreadsheet.log}
+    volumes:
+      # 設定ファイルをマウント
+      - ./config:/app/config
+      # ログファイルを永続化
+      - ./logs:/var/log
+    restart: unless-stopped
+    # コンテナ起動時のログを出力
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

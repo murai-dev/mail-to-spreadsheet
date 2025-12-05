@@ -1,0 +1,42 @@
+# メール処理関連の設定
+mail:
+  # IMAPサーバーの設定
+  host: imap.gmail.com
+  port: 993
+  # 過去何分間のメールをチェックするか
+  check_period_minutes: 60
+  # cron実行間隔（分）
+  # サポート値: 1, 15, 30, 60
+  check_interval_minutes: 30
+
+# メールフィルタ条件
+# 複数の条件を指定した場合、全て満たすメールが対象
+filters:
+  - type: "subject"
+    condition: "prefix"
+    value: "【重要】"
+  # 送信元メールアドレスでフィルタする場合の例:
+  # - type: "from"
+  #   condition: "equals"  # または "contains"（部分一致）
+  #   value: "example@example.com"
+
+# Google Spreadsheet関連の設定
+spreadsheet:
+  # SpreadsheetのID（URLから取得）
+  # https://docs.google.com/spreadsheets/d/{SPREADSHEET_ID}/edit
+  spreadsheet_id: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  # 書き込み先シート名
+  sheet_name: "メール記録"
+  # 記録するカラム（設定順が記録時の順序）
+  columns:
+    - from         # 送信元メールアドレス
+    - subject      # メール件名
+    - received_at  # 受信日時
+    - body         # メール本文
+
+# ログ設定
+log:
+  # ログレベル: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: INFO
+  # ログファイル出力先パス
+  file: "/var/log/mail-to-spreadsheet.log"
