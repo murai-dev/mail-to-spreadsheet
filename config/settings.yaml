@@ -1,5 +1,7 @@
 # メール処理関連の設定
 mail:
+  # メールをデータ源として使用するかどうか
+  enabled: true
   # IMAPサーバーの設定
   host: imap.gmail.com
   port: 993
@@ -8,6 +10,16 @@ mail:
   # cron実行間隔（分）
   # サポート値: 1, 15, 30, 60
   check_interval_minutes: 30
+
+# LINE設定（オプション）
+# Webhook経由でLINEメッセージを受信する場合に使用
+line:
+  # LINEをデータ源として使用するかどうか
+  enabled: false
+  # Channel Access Token (環境変数 LINE_CHANNEL_ACCESS_TOKEN から読み込み)
+  # channel_access_token: "YOUR_CHANNEL_ACCESS_TOKEN"
+  # Channel Secret (環境変数 LINE_CHANNEL_SECRET から読み込み)
+  # channel_secret: "YOUR_CHANNEL_SECRET"
 
 # メールフィルタ条件
 # 複数の条件を指定した場合、全て満たすメールが対象
@@ -19,6 +31,10 @@ filters:
   # - type: "from"
   #   condition: "equals"  # または "contains"（部分一致）
   #   value: "example@example.com"
+  # 本文のキーワードでフィルタする場合の例:
+  # - type: "body"
+  #   condition: "contains"  # または "equals"（完全一致）
+  #   value: "重要なキーワード"
 
 # Google Spreadsheet関連の設定
 spreadsheet:

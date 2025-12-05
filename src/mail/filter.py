@@ -32,5 +32,12 @@ class MailFilter:
             elif f["type"] == "from" and f["condition"] == "contains":
                 if f["value"] not in mail["from"]:
                     return False
-            # 他の条件はここに追加可能（本文キーワード等）
+            # 本文のキーワード完全一致フィルタ
+            elif f["type"] == "body" and f["condition"] == "equals":
+                if f["value"] not in mail.get("body", ""):
+                    return False
+            # 本文のキーワード部分一致フィルタ
+            elif f["type"] == "body" and f["condition"] == "contains":
+                if f["value"].lower() not in mail.get("body", "").lower():
+                    return False
         return True

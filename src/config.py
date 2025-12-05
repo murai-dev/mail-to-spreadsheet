@@ -70,6 +70,17 @@ class Config:
         })
 
     @property
+    def line(self):
+        """
+        LINE設定
+        Returns:
+            dict
+        """
+        return self._settings.get("line", {
+            "enabled": False,
+        })
+
+    @property
     def env(self):
         """
         機密情報や環境依存値を環境変数から取得
@@ -80,4 +91,6 @@ class Config:
             "MAIL_USER": os.getenv("MAIL_USER"),  # メールアカウント
             "MAIL_PASSWORD": os.getenv("MAIL_PASSWORD"),  # メールパスワード
             "GOOGLE_SERVICE_ACCOUNT_FILE": os.getenv("GOOGLE_SERVICE_ACCOUNT_FILE"),  # サービスアカウント認証ファイル
+            "LINE_CHANNEL_ACCESS_TOKEN": os.getenv("LINE_CHANNEL_ACCESS_TOKEN"),  # LINE Channel Access Token
+            "LINE_CHANNEL_SECRET": os.getenv("LINE_CHANNEL_SECRET"),  # LINE Channel Secret
         }

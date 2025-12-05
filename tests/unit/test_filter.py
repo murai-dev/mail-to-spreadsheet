@@ -81,3 +81,61 @@ class TestMailFilter:
         
         mail = {"subject": "テスト", "from": "test@example.com"}
         assert mail_filter.match(mail) is True
+
+    def test_body_contains_match(self):
+        """本文のキーワード部分一致フィルタが正しく動作するか"""
+        filters = [
+            {"type": "body", "condition": "contains", "value": "重要"}
+        ]
+        mail_filter = MailFilter(filters)
+        
+        # マッチするケース
+        mail = {"subject": "テスト", "from": "test@example.com", "body": "これは重要なメールです"}
+        assert mail_filter.match(mail) is True
+        
+        # 大文字小文字を区別しないテスト
+        mail = {"subject": "テスト", "from": "test@example.com", "body": "This is 重要 message"}
+        assert mail_filter.match(mail) is True
+        
+        # マッチしないケース
+        mail = {"subject": "テスト", "from": "test@example.com", "body": "通常のメール内容"}
+        assert mail_filter.match(mail) is False
+
+    def test_body_equals_match(self):
+        """本文のキーワード完全一致フィルタが正しく動作するか"""
+        filters = [
+            {"type": "body", "condition": "equals", "value": "警告"}
+        ]
+        mail_filter = MailFilter(filters)
+        
+        # マッチするケース
+        mail = {"subject": "テスト", "from": "test@example.com", "body": "警告:エラーが発生しました"}
+        assert mail_filter.match(mail) is True
+        
+        # マッチしないケース
+        mail = {"subject": "テスト", "from": "test@example.com", "body": "通常のメール内容"}
+        assert mail_filter.match(mail) is False
+
+    def test_multiple_filters_with_body(self):
+        """本文を含む複数のフィルタが正しく動作するか"""
+        filters = [
+            {"type": "subject", "condition": "prefix", "value": "【重要】"},
+            {"type": "body", "condition": "contains", "value": "重要"}
+        ]
+        mail_filter = MailFilter(filters)
+        
+        # 全て満たすケース
+        mail = {
+            "subject": "【重要】会議のお知らせ",
+            "from": "test@example.com",
+            "body": "これは重要な会議です"
+        }
+        assert mail_filter.match(mail) is True
+        
+        # 件名は満たすが本文は満たさないケース
+        mail = {
+            "subject": "【重要】会議のお知らせ",
+            "from": "test@example.com",
+            "body": "通常の会議です"
+        }
+        assert mail_filter.match(mail) is False
